@@ -51,57 +51,89 @@
     <exclude name="**/?*.clj"/>
   </patternset>
   
-  <!-- JDK definitions -->
-  
-  <property name="jdk.bin.1.8_(1)" value="${jdk.home.1.8_(1)}/bin"/>
-  <path id="jdk.classpath.1.8_(1)">
-    <fileset dir="${jdk.home.1.8_(1)}">
-      <include name="jre/lib/charsets.jar"/>
-      <include name="jre/lib/deploy.jar"/>
-      <include name="jre/lib/ext/cldrdata.jar"/>
-      <include name="jre/lib/ext/dnsns.jar"/>
-      <include name="jre/lib/ext/jaccess.jar"/>
-      <include name="jre/lib/ext/jfxrt.jar"/>
-      <include name="jre/lib/ext/localedata.jar"/>
-      <include name="jre/lib/ext/nashorn.jar"/>
-      <include name="jre/lib/ext/sunec.jar"/>
-      <include name="jre/lib/ext/sunjce_provider.jar"/>
-      <include name="jre/lib/ext/sunpkcs11.jar"/>
-      <include name="jre/lib/ext/zipfs.jar"/>
-      <include name="jre/lib/javaws.jar"/>
-      <include name="jre/lib/jce.jar"/>
-      <include name="jre/lib/jfr.jar"/>
-      <include name="jre/lib/jfxswt.jar"/>
-      <include name="jre/lib/jsse.jar"/>
-      <include name="jre/lib/management-agent.jar"/>
-      <include name="jre/lib/plugin.jar"/>
-      <include name="jre/lib/resources.jar"/>
-      <include name="jre/lib/rt.jar"/>
-    </fileset>
-  </path>
-  
-  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
-  
   
   <!-- Global Libraries -->
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <pathelement location="${javac2.home}/javac2.jar"/>
-    <pathelement location="${javac2.home}/jdom.jar"/>
-    <pathelement location="${javac2.home}/asm-all.jar"/>
-    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
-  <import file="${basedir}/module_blockchain.xml"/>
+  
+  <!-- Module Blockchain -->
+  
+  <dirname property="module.blockchain.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.blockchain" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="blockchain.output.dir" value="${module.blockchain.basedir}/out/production/Blockchain"/>
+  <property name="blockchain.testoutput.dir" value="${module.blockchain.basedir}/out/test/Blockchain"/>
+  
+  <path id="blockchain.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="blockchain.module.production.classpath">
+    <pathelement location="${basedir}/pkg/javafx-0.2.jar"/>
+  </path>
+  
+  <path id="blockchain.runtime.production.module.classpath">
+    <pathelement location="${blockchain.output.dir}"/>
+    <pathelement location="${basedir}/pkg/javafx-0.2.jar"/>
+  </path>
+  
+  <path id="blockchain.module.classpath">
+    <pathelement location="${blockchain.output.dir}"/>
+    <pathelement location="${basedir}/pkg/javafx-0.2.jar"/>
+  </path>
+  
+  <path id="blockchain.runtime.module.classpath">
+    <pathelement location="${blockchain.testoutput.dir}"/>
+    <pathelement location="${blockchain.output.dir}"/>
+    <pathelement location="${basedir}/pkg/javafx-0.2.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.blockchain">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.blockchain">
+    <patternset refid="excluded.from.module.blockchain"/>
+  </patternset>
+  
+  <path id="blockchain.module.sourcepath">
+    <dirset dir="${module.blockchain.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.blockchain" depends="compile.module.blockchain.production,compile.module.blockchain.tests" description="Compile module Blockchain"/>
+  
+  <target name="compile.module.blockchain.production" description="Compile module Blockchain; production classes">
+    <mkdir dir="${blockchain.output.dir}"/>
+    <javac destdir="${blockchain.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.blockchain}"/>
+      <bootclasspath refid="blockchain.module.bootclasspath"/>
+      <classpath refid="blockchain.module.production.classpath"/>
+      <src refid="blockchain.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.blockchain"/>
+    </javac>
+    
+    <copy todir="${blockchain.output.dir}">
+      <fileset dir="${module.blockchain.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.blockchain.tests" depends="compile.module.blockchain.production" description="compile module Blockchain; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.blockchain" description="cleanup module">
+    <delete dir="${blockchain.output.dir}"/>
+    <delete dir="${blockchain.testoutput.dir}"/>
+  </target>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->

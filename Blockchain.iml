@@ -10,24 +10,24 @@
     <orderEntry type="module-library" exported="">
       <library>
         <ANNOTATIONS>
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
         </ANNOTATIONS>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
         </JAVADOC>
         <NATIVE>
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
         </NATIVE>
         <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" />
         </SOURCES>
-        <jarDirectory url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" recursive="false" />
-        <jarDirectory url="jar://$USER_HOME$/Downloads/javafx-0.2.jar!/" recursive="false" type="SOURCES" />
+        <jarDirectory url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" recursive="false" />
+        <jarDirectory url="jar://$MODULE_DIR$/pkg/javafx-0.2.jar!/" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>
