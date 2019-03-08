@@ -15,7 +15,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="UPublicKey" layoutX="46.0" layoutY="80.0" prefHeight="20.0" prefWidth="289.0" promptText="Public Key Of Person To Share With" />
+      <TextArea fx:id="UPublicKey" layoutX="46.0" layoutY="80.0" prefHeight="20.0" prefWidth="289.0" promptText="Public Key Of Person To Share With" />
       <Button fx:id="Upload" layoutX="46.0" layoutY="136.0" mnemonicParsing="false" onAction="#onUploadAction" prefHeight="42.0" prefWidth="79.0" text="Upload" />
       <Label layoutX="141.0" layoutY="199.0" prefHeight="35.0" prefWidth="175.0" text="Download">
          <font>

@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class SymmetricKey {
 
@@ -37,13 +38,13 @@ public class SymmetricKey {
         System.out.println("Encrypting file: " + f.getName());
         this.cipher.init(Cipher.ENCRYPT_MODE, this.secretKey);
         this.writeToFile(f);
-        return secretKey.toString();
+        return Base64.getEncoder().encodeToString(secretKey.getEncoded());
     }
 
     public void decryptFile(File f, String key)
             throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
         System.out.println("Decrypting file: " + f.getName());
-        byte lk[] = key.getBytes();
+        byte lk[] = Base64.getDecoder().decode(key);
         SecretKeySpec spec = new SecretKeySpec(lk,"AES");
         this.cipher.init(Cipher.DECRYPT_MODE, spec);
         this.writeToFile(f);
